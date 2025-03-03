@@ -3,14 +3,6 @@ package Aula04;
 public class HeuristicaManhattan {
     private int[] arrayPuzzle;
 
-    HeuristicaManhattan(int[] array) {
-        this.arrayPuzzle = array.clone(); // garante que o array original não seja modificado
-    }
-
-    public int[] getArrayPuzzle() {
-        return arrayPuzzle;
-    }
-
     public static int calculaHeuristica(int[] array) {
         int heuristica = 0;
        for (int i = 0; i < array.length; i++) {

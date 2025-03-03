@@ -3,36 +3,61 @@ package Aula04;
 import java.util.*;
 
 public class aStar {
+
+    static PriorityQueue<Estado> fila = new PriorityQueue<Estado>();
+
+
     public static void aStar(int[] arrayPuzzle) {
-        int[] objetivo = {1, 2, 3, 4, 5, 6, 7, 8, 0};
 
+        fila.add(new Estado(arrayPuzzle,  0, HeuristicaManhattan.calculaHeuristica(arrayPuzzle), null));
 
-        PriorityQueue<Map.Entry<Integer, Integer>> fila = new PriorityQueue<>(Map.Entry.comparingByKey());
+        while (!fila.isEmpty()) {
+            Estado estado = fila.poll();
 
-        do {
-            ArrayList<Integer> MovimentosPossiveis = verificaMovimentos(arrayPuzzle);
-
-
-            for (int i = 0; i < MovimentosPossiveis.size(); i++) {
-                int indiceZero = indexZero(arrayPuzzle);
-                int indiceMovimento = MovimentosPossiveis.get(i);
-
-                int numeroTrocado = arrayPuzzle[indiceMovimento];
-                arrayPuzzle[indiceMovimento] = 0;
-                arrayPuzzle[indiceZero] = numeroTrocado;
-
-                int heuristica = HeuristicaManhattan.calculaHeuristica(arrayPuzzle);
-                fila.add(new AbstractMap.SimpleEntry<>(heuristica, numeroTrocado));
-
-                // Desfaz a troca e testa o próximo
-                arrayPuzzle[indiceZero] = 0;
-                arrayPuzzle[indiceMovimento] = numeroTrocado;
-
+            if (objAlcancado( estado.tabuleiro)) {
+                System.out.println("Objetivo alcancado!");
+                reconstruirCaminho(estado);
+                return;
             }
-        } while (arrayPuzzle != objetivo);
+
+            executaMovimento(estado);
+
+        }
+
+    }
+
+    public static void reconstruirCaminho(Estado estadoFinal) {
+        List<int[]> caminho = new ArrayList<>();
+
+        // Percorre os estados pais até o estado inicial
+        Estado atual = estadoFinal;
+        while (atual != null) {
+            caminho.add(atual.tabuleiro);
+            atual = atual.pai;
+        }
+
+        // Inverte a ordem para mostrar do início ao fim
+        Collections.reverse(caminho);
+
+        // Exibe o caminho
+        System.out.println("Caminho até a solução:");
+        for (int[] tabuleiro : caminho) {
+            imprimirTabuleiro(tabuleiro);
+        }
+    }
+
+    public static void imprimirTabuleiro(int[] tabuleiro) {
+        for (int i = 0; i < tabuleiro.length; i++) {
+            if (i % 3 == 0) System.out.println(); // Quebra de linha a cada 3 elementos
+            System.out.print(tabuleiro[i] + " ");
+        }
+        System.out.println("\n");
+    }
 
 
-
+    public static boolean objAlcancado(int[] arrayPuzzle) {
+        int[] objetivo = {1, 2, 3, 4, 5, 6, 7, 8, 0};
+        return Arrays.equals(arrayPuzzle, objetivo);
     }
 
     public static int indexZero(int[] array) {
@@ -56,14 +81,35 @@ public class aStar {
                 MovimentosPossiveis.add(i);
             }
         }
-
         return MovimentosPossiveis;
     }
 
-    public static PriorityQueue<Map.Entry<Integer, Integer>> retornaProxMov() {
-        PriorityQueue<Map.Entry<Integer, Integer>> fila = new PriorityQueue<Map.Entry<Integer, Integer>>();
+    static HashSet<String> jaVisitados = new HashSet<>();
 
-        return fila;
+    public static void executaMovimento(Estado estadoAtual) {
+
+        int indiceZero = indexZero(estadoAtual.tabuleiro);
+        ArrayList<Integer> MovimentosPossiveis = verificaMovimentos(estadoAtual.tabuleiro);
+
+        for (int indiceMovimento : MovimentosPossiveis) {
+
+            int[] novoEst = estadoAtual.tabuleiro.clone();
+
+            novoEst[indiceZero] = novoEst[indiceMovimento];
+            novoEst[indiceMovimento] = 0;
+
+            String estadoStr = Arrays.toString(novoEst);
+            if (jaVisitados.contains(estadoStr)) {
+                continue; // sai do loop
+            }
+
+            int novoG = estadoAtual.g + 1;
+            int novoH = HeuristicaManhattan.calculaHeuristica(novoEst);
+
+            Estado novoEstado = new Estado(novoEst, novoG, novoH, estadoAtual);
+            fila.add(novoEstado);
+
+        }
     }
 }
 
