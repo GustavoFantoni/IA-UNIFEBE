@@ -1,4 +1,4 @@
-package Aula04;
+package Astar_8puzzle;
 
 public class HeuristicaManhattan {
     private int[] arrayPuzzle;

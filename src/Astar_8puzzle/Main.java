@@ -1,13 +1,19 @@
-package Aula04;
+package Astar_8puzzle;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Informe a entrada: ex: 123456780... ");
+        int[] estadoInicial = converterStringParaArray(input.nextLine());
 
-        int[] estadoInicial = converterStringParaArray("451203786");
+        System.out.println("Informe a saída: ex: 123456780... ");
+        int[] estadoFinal = converterStringParaArray(input.nextLine());
 
         long inicio = System.currentTimeMillis();
 
-        Aula04.aStar.aStar(estadoInicial);
+        Astar_8puzzle.aStar.aStar(estadoInicial, estadoFinal);
 
         long fim = System.currentTimeMillis();
         System.out.println("Tempo de execução: " + (fim - inicio) + "ms");

@@ -1,4 +1,4 @@
-package Aula04;
+package Astar_8puzzle;
 
 import java.util.*;
 
@@ -7,14 +7,14 @@ public class aStar {
     static PriorityQueue<Estado> fila = new PriorityQueue<Estado>();
 
 
-    public static void aStar(int[] arrayPuzzle) {
+    public static void aStar(int[] arrayPuzzle, int[] obj) {
 
         fila.add(new Estado(arrayPuzzle,  0, HeuristicaManhattan.calculaHeuristica(arrayPuzzle), null));
 
         while (!fila.isEmpty()) {
             Estado estado = fila.poll();
 
-            if (objAlcancado( estado.tabuleiro)) {
+            if (objAlcancado(estado.tabuleiro, obj)) {
                 System.out.println("Objetivo alcancado!");
                 reconstruirCaminho(estado);
                 return;
@@ -55,8 +55,7 @@ public class aStar {
     }
 
 
-    public static boolean objAlcancado(int[] arrayPuzzle) {
-        int[] objetivo = {1, 2, 3, 4, 5, 6, 7, 8, 0};
+    public static boolean objAlcancado(int[] arrayPuzzle, int[] objetivo) {
         return Arrays.equals(arrayPuzzle, objetivo);
     }
 
