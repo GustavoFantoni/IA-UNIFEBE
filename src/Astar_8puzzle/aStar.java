@@ -9,7 +9,7 @@ public class aStar {
 
     public static void aStar(int[] arrayPuzzle, int[] obj) {
 
-        fila.add(new Estado(arrayPuzzle,  0, HeuristicaManhattan.calculaHeuristica(arrayPuzzle), null));
+        fila.add(new Estado(arrayPuzzle,  0, HeuristicaManhattan.calculaHeuristica(arrayPuzzle), null, "Inicio"));
 
         while (!fila.isEmpty()) {
             Estado estado = fila.poll();
@@ -27,24 +27,23 @@ public class aStar {
     }
 
     public static void reconstruirCaminho(Estado estadoFinal) {
-        List<int[]> caminho = new ArrayList<>();
+        LinkedList<Map.Entry<int[], String>> caminho = new LinkedList<>();
 
-        // Percorre os estados pais até o estado inicial
+        // Percorre os estados pais até o estado inicial e adiciona no início da lista
         Estado atual = estadoFinal;
         while (atual != null) {
-            caminho.add(atual.tabuleiro);
+            caminho.addFirst(new AbstractMap.SimpleEntry<>(atual.tabuleiro, atual.movimento));
             atual = atual.pai;
         }
 
-        // Inverte a ordem para mostrar do início ao fim
-        Collections.reverse(caminho);
-
         // Exibe o caminho
         System.out.println("Caminho até a solução:");
-        for (int[] tabuleiro : caminho) {
-            imprimirTabuleiro(tabuleiro);
+        for (Map.Entry<int[], String> passo : caminho) {
+            System.out.println("Movimento: " + passo.getValue());
+            imprimirTabuleiro(passo.getKey());
         }
     }
+
 
     public static void imprimirTabuleiro(int[] tabuleiro) {
         for (int i = 0; i < tabuleiro.length; i++) {
@@ -94,6 +93,8 @@ public class aStar {
 
             int[] novoEst = estadoAtual.tabuleiro.clone();
 
+            String mov = direcaoMov(indiceZero, indiceMovimento);
+
             novoEst[indiceZero] = novoEst[indiceMovimento];
             novoEst[indiceMovimento] = 0;
 
@@ -105,9 +106,20 @@ public class aStar {
             int novoG = estadoAtual.g + 1;
             int novoH = HeuristicaManhattan.calculaHeuristica(novoEst);
 
-            Estado novoEstado = new Estado(novoEst, novoG, novoH, estadoAtual);
+            Estado novoEstado = new Estado(novoEst, novoG, novoH, estadoAtual, mov);
             fila.add(novoEstado);
 
+        }
+    }
+    private static String direcaoMov(int indZero, int indMov) {
+        if (indMov == indZero - 1) {
+            return "Esquerda";
+        } else if (indMov == indZero + 1) {
+            return "Direita";
+        } else if (indMov == indZero - 3) {
+            return "Cima";
+        } else {
+            return "Baixo";
         }
     }
 }

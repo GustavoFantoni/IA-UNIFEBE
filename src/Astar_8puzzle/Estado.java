@@ -8,12 +8,14 @@ class Estado implements Comparable<Estado> {
     int h;
     int g;
     Estado pai;
+    String movimento;
 
-    Estado (int[] tabuleiro, int g, int h,  Estado pai) {
+    Estado (int[] tabuleiro, int g, int h,  Estado pai, String movimento) {
         this.tabuleiro = tabuleiro.clone();
         this.h = h;
         this.g = g;
         this.pai = pai;
+        this.movimento = movimento;
     }
 
     @Override
