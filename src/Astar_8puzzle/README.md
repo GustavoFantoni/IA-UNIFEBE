@@ -1,8 +1,8 @@
-# A\* 8-Puzzle Solver
+# A\* 8-Puzzle 
 
 Este projeto implementa a solução do quebra-cabeça 8-puzzle utilizando o algoritmo A\* (A-star) com a heurística da distância de Manhattan.
 
-## 📌 Sobre o Projeto
+## Sobre o Projeto
 
 O 8-puzzle é um jogo deslizante composto por um tabuleiro 3x3 contendo números de 1 a 8 e um espaço vazio (representado por 0). O objetivo é reorganizar os números até atingir um estado desejado, movendo o espaço vazio.
 
@@ -14,7 +14,7 @@ Este programa recebe um estado inicial e um estado final como entrada e resolve 
 - Algoritmo A\*
 - Heurística da Distância de Manhattan
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 O projeto contém os seguintes arquivos:
 
@@ -23,7 +23,7 @@ O projeto contém os seguintes arquivos:
 - `aStar.java` → Implementação do algoritmo A\* para busca da solução.
 - `Estado.java` → Representação do estado do tabuleiro.
 
-## 🚀 Como Executar
+## Como Executar
 
 1. **Clone o repositório:**
    ```sh
@@ -38,7 +38,7 @@ O projeto contém os seguintes arquivos:
    java Astar_8puzzle.Main
    ```
 
-## 🖥 Uso
+## Uso
 
 Após iniciar o programa, insira o estado inicial e o estado final do tabuleiro.
 
@@ -64,7 +64,7 @@ Movimento: Inicio
 Tempo de execução: 5ms
 ```
 
-## 📌 Explicação do Código
+## Explicação do Código
 
 ### `Main.java`
 
@@ -87,7 +87,7 @@ Tempo de execução: 5ms
 - Representa um estado do tabuleiro, armazenando a configuração atual e o custo do caminho.
 - Implementa a interface `Comparable` para ordenar a fila de prioridade.
 
-## 🔍 Códigos Principais
+## Códigos Principais
 
 ### Conversão de String para Array (`Main.java`)
 
