@@ -8,7 +8,7 @@ O 8-puzzle é um jogo deslizante composto por um tabuleiro 3x3 contendo números
 
 Este programa recebe um estado inicial e um estado final como entrada e resolve o problema utilizando o algoritmo A\*.
 
-## 🛠 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - Java
 - Algoritmo A\*
